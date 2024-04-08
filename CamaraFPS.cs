@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement2 : MonoBehaviour
+public class CamaraFPS : MonoBehaviour
 {
 private Transform camera;
 public Vector2 sensibility;
