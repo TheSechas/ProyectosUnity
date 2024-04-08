@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,17 +10,11 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeigh = 3f;
 
     public Transform gorundCheck;
-    public float gorundDistance = 0,4f;
+    public float gorundDistance = 0.4f;
     public LayerMask groundMask;
 
     Vector3 velocity;
     bool isGrounded;
-
-    void Start()
-        {
-
-        }
-
     void Update()
     {
         isGrounded = Physics.CheckSphere(gorundCheck.position, gorundDistance, groundMask);
@@ -28,14 +24,14 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = -2f;
         }
 
-        float x = Input.GetAxis("Horizontal")
-        float y = Input.GetAxis("Vertical")
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * x + transform.foward * z;
+        Vector3 move = transform.right * x + transform.forward * y;
 
         controller.Move(move * speed * Time.deltaTime);
 
-        if(Input.GetButtomDown("Jump") && isGrounded)
+        if(Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeigh * -2 * gravity);
         }
