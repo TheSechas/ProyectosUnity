@@ -1,43 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController controller;
+    public float Speed = 1.0f;
+    public float RotationSpeed = 1.0f;
+    public float JumpForce = 1.0f;
 
-    public float speed = 12f;
-    public float gravity = -9.81f;
-    public float jumpHeigh = 3f;
+    private Rigidbody Physics;
+    private bool isGrounded = true;
 
-    public Transform gorundCheck;
-    public float gorundDistance = 0.4f;
-    public LayerMask groundMask;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
-    Vector3 velocity;
-    bool isGrounded;
+        Physics = GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(gorundCheck.position, gorundDistance, groundMask);
+        // Movimiento
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        if(isGrounded && velocity.y < 0)
+        transform.Translate(new Vector3(horizontal, 0.0f, vertical) * Time.deltaTime * Speed);
+
+        // Rotación
+        float rotationY = Input.GetAxis("Mouse X");
+        transform.Rotate(new Vector3(0, rotationY * Time.deltaTime * RotationSpeed, 0));
+
+        // Salto
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            velocity.y = -2f;
+            Physics.AddForce(new Vector3(0, JumpForce, 0), ForceMode.Impulse);
+            isGrounded = false; // El jugador no está en el suelo después de saltar
         }
+    }
 
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * y;
-
-        controller.Move(move * speed * Time.deltaTime);
-
-        if(Input.GetButtonDown("Jump") && isGrounded)
+    void OnCollisionEnter(Collision collision)
+    {
+        // Verificar si el jugador ha colisionado con un objeto que representa el suelo
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            velocity.y = Mathf.Sqrt(jumpHeigh * -2 * gravity);
+            isGrounded = true; // El jugador está en el suelo
         }
+    }
 
-        velocity.y += gravity * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
+    void OnCollisionExit(Collision collision)
+    {
+        // Verificar si el jugador ha dejado de colisionar con un objeto que representa el suelo
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false; // El jugador ya no está en el suelo
+        }
     }
 }
