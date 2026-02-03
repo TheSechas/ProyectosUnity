@@ -8,7 +8,7 @@ public class Note : MonoBehaviour, IInteractable
     public void Interact()
     {
         // Inspección de la nota (no se puede coger)
-        InspectionSystem.Instance.StartInspection(transform, null, false);
+        InspectionSystem.Instance.StartInspection(transform, noteText, false);
     }
 
     public string GetInteractionText()

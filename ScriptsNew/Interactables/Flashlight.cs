@@ -1,11 +1,8 @@
-using UnityEditor;
 using UnityEngine;
 
 public class linternaPro : MonoBehaviour
 {
     public static linternaPro Instance;
-    private bool isFlashlightOn = false;
-    private Light linterna;
 
     private void Awake()
     {
@@ -20,7 +17,7 @@ public class linternaPro : MonoBehaviour
             return;
         }
 
-        // Si el GameObject del Light est· inactivo, lo activamos (opcional)
+        // Si el GameObject del Light est√° inactivo, lo activamos (opcional)
         if (!targetLight.gameObject.activeInHierarchy)
             targetLight.gameObject.SetActive(true);
 

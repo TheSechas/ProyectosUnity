@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
-using JetBrains.Annotations;
-using UnityEngine.Rendering;
 
 public class InspectionSystem : MonoBehaviour
 {
