@@ -5,40 +5,39 @@ public class PlayerFreezer : MonoBehaviour
     [Header("Scripts a desactivar en el Player")]
     [SerializeField] private Behaviour[] scriptsToDisable; // Scripts del Player que quieres desactivar
 
-    private FirstPersonLook cameraLookScript; // Se buscar· autom·ticamente en los hijos
+    private Behaviour cameraLookScript; // Se buscar√° autom√°ticamente en los hijos
     private Rigidbody body;
 
     private bool isFrozen = false;
 
     void Awake()
     {
-        // Busca autom·ticamente el script de la c·mara en los hijos
-        cameraLookScript = GetComponentInChildren<FirstPersonLook>();
+        // Busca autom√°ticamente el script de la c√°mara en los hijos.
+        cameraLookScript = GetComponentInChildren<MouseLook>();
         if (cameraLookScript == null)
         {
-            Debug.LogWarning("PlayerFreezer: No se encontrÛ FirstPersonLook en los hijos del Player.");
+            Debug.LogWarning("PlayerFreezer: No se encontr√≥ MouseLook en los hijos del Player.");
         }
         body = GetComponent<Rigidbody>();
     }
 
     public void Freeze()
     {
-        // Freezeamos el rigidbody para que no pueda rotar ni moverse ( en principio )
+        // Congelamos el rigidbody para que no pueda rotar ni moverse.
         body.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
         if (isFrozen) return;
 
-        // TODO: SerÌa mejor desactivar a mano directamente los scripts en vez de usar un foreach, cuando usemos mi script de movimiento esto ser· m·s simple.
-        // Desactiva los scripts del Player
+        // Desactiva los scripts del Player.
         foreach (var s in scriptsToDisable)
         {
             if (s != null) s.enabled = false;
         }
         
         
-        // Desactiva el script de la c·mara
+        // Desactiva el script de la c√°mara.
         if (cameraLookScript != null) cameraLookScript.enabled = false;
 
-        // Muestra el cursor
+        // Muestra el cursor.
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
 
@@ -50,15 +49,15 @@ public class PlayerFreezer : MonoBehaviour
         body.constraints = RigidbodyConstraints.FreezeRotation;
         if (!isFrozen) return;
 
-        // Activa los scripts del Player
+        // Activa los scripts del Player.
         foreach (var s in scriptsToDisable)
         {
             if (s != null) s.enabled = true;
         }
 
-        // Activa el script de la c·mara
+        // Activa el script de la c√°mara.
         if (cameraLookScript != null) cameraLookScript.enabled = true;
-        // Bloquea el cursor
+        // Bloquea el cursor.
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 

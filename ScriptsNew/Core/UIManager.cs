@@ -9,9 +9,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject crosshairHand;
     [SerializeField] private TextMeshProUGUI interactionText;
 
+    // Singleton sencillo para acceso global desde otros scripts.
     void Awake() => Instance = this;
 
-    // Mostrar texto de interacción (abrir puerta, coger nota, etc.)
+    // Mostrar texto de interacciÃ³n (abrir puerta, coger nota, etc.)
     public void ShowInteraction(string text, bool isInteractable)
     {
         if (interactionText == null) return;
@@ -40,7 +41,7 @@ public class UIManager : MonoBehaviour
             interactionText.gameObject.SetActive(false);
     }
 
-    // --- NUEVOS MÉTODOS ---
+    // --- NUEVOS MÃ‰TODOS ---
     // Usamos el mismo interactionText para controles o mensajes
     public void ShowControlsMessage(string message)
     {
